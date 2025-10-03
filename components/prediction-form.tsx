@@ -70,32 +70,31 @@ export default function PredictionForm() {
 		setResult(null);
 
 		try {
-			const response = await fetch(
-				"/api/predict",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						features: {
-							area: Number.parseInt(formData.area),
-							basement: formData.basement === "true",
-							parking: Number.parseInt(formData.parking),
-							stories: Number.parseInt(formData.stories),
-							number_rooms: Number.parseInt(formData.number_rooms),
-							furnishingstatus: formData.furnishingstatus,
-							hotwaterheating: formData.hotwaterheating === "true",
-							bathrooms: Number.parseInt(formData.bathrooms),
-							guestroom: formData.guestroom === "true",
-							bedrooms: Number.parseInt(formData.bedrooms),
-							mainroad: formData.mainroad === "true",
-							airconditioning: formData.airconditioning === "true",
-							prefarea: formData.prefarea === "true",
-						},
-					}),
-				}
-			);
+			const features = {
+				area: Number.parseInt(formData.area),
+				basement: formData.basement === "true" ? "yes" : "no",
+				parking: Number.parseInt(formData.parking),
+				stories: Number.parseInt(formData.stories),
+				number_rooms: Number.parseInt(formData.number_rooms),
+				furnishingstatus: formData.furnishingstatus,
+				hotwaterheating: formData.hotwaterheating === "true" ? "yes" : "no",
+				bathrooms: Number.parseInt(formData.bathrooms),
+				guestroom: formData.guestroom === "true" ? "yes" : "no",
+				bedrooms: Number.parseInt(formData.bedrooms),
+				mainroad: formData.mainroad === "true" ? "yes" : "no",
+				airconditioning: formData.airconditioning === "true" ? "yes" : "no",
+				prefarea: formData.prefarea === "true" ? "yes" : "no",
+			};
+            console.log("POST /api/predict:",  features);
+			const response = await fetch("/api/predict", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					features,
+				}),
+			});
 
 			if (!response.ok) {
 				throw new Error("Prediction failed");
