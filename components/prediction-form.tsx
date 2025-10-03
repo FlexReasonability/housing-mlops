@@ -85,7 +85,15 @@ export default function PredictionForm() {
 				airconditioning: formData.airconditioning === "true" ? "yes" : "no",
 				prefarea: formData.prefarea === "true" ? "yes" : "no",
 			};
-            console.log("POST /api/predict:",  features);
+			console.log("POST /api/predict:", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					features,
+				}),
+			});
 			const response = await fetch("/api/predict", {
 				method: "POST",
 				headers: {
